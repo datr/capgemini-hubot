@@ -10,3 +10,6 @@
 [submodule "vagrant/modules/apt"]
 	path = vagrant/modules/apt
 	url = https://github.com/puppetlabs/puppetlabs-apt.git
+[submodule "vagrant/modules/nodejs"]
+	path = vagrant/modules/nodejs
+	url = https://github.com/puppetlabs/puppetlabs-nodejs.git
