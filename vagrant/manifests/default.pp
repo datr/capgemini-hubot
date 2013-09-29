@@ -4,9 +4,21 @@ class { 'apt': }
 
 # Node.js
 # -------
+#
+# The versions of node and npm in the Ubunut repos for raring and earlier [#f1]_
+# are quite out of date so we use Chris Lea's ppa [#f2]_ in order to get the
+# latest release and be able to use the most up to date version of hubot. We
+# need this mainly to ensure compatability with the hubot-scripts repo as there
+# is no version matching between the repos which leads to problems such as
+# https://github.com/github/hubot/issues/517.
+#
+# .. [#f1] http://packages.ubuntu.com/raring/nodejs
+# .. [#f2] https://launchpad.net/~chris-lea/+archive/node.js
 
-package { "nodejs" : }
-package { "npm" : }
+class { 'nodejs' : 
+  manage_repo => true,
+  proxy => '',
+}
 
 # There is a naming conflict between nodejs and Amateur Packet Radio Node
 # Program so the package was renamed [#f1]_. We want to use node though so crate
@@ -14,11 +26,25 @@ package { "npm" : }
 #
 # .. [#f1] https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager#ubuntu-mint-elementary-os
 
-# file { '/usr/bin/node':
-#    ensure => 'link',
-#    target => '/usr/bin/nodejs',
-#    require => Package['nodejs'],
-# }
+if $::operatingsystemrelease >= 13.04 {
+	file { '/usr/bin/node':
+	   ensure => 'link',
+	   target => '/usr/bin/nodejs',
+	   require => Package['nodejs'],
+	}
+}
+
+# Coffee Script
+
+package { 'coffee-script':
+  provider => 'npm',
+}
+
+# Hubot
+
+package { 'hubot':
+  provider => 'npm',
+}
 
 # Skype4Py
 # --------
@@ -31,7 +57,7 @@ package { "Skype4Py" :
 }
 
 # x11 transport doesn't seem to be working.
-# Can't instlal dbus-python via pip.
+# Can't install dbus-python via pip.
 # http://stackoverflow.com/a/13367555/1381644
 
 package { "python-dbus" : }
