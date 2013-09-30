@@ -12,6 +12,10 @@
 
 module.exports = (robot) ->
 
+  if process.env.HUBOT_AUTH_ADMIN?
+    robot.logger.warning 'The HUBOT_AUTH_ADMIN environment variable is set not going to load roles.coffee, you should delete it'
+    return
+
   getAmbiguousUserText = (users) ->
     "Be more specific, I know #{users.length} people named like that: #{(user.name for user in users).join(", ")}"
 
@@ -24,7 +28,7 @@ module.exports = (robot) ->
     else if name is robot.name
       msg.send "The best."
     else
-      users = robot.usersForFuzzyName(name)
+      users = robot.brain.usersForFuzzyName(name)
       if users.length is 1
         user = users[0]
         user.roles = user.roles or [ ]
@@ -45,7 +49,7 @@ module.exports = (robot) ->
 
     unless name in ['', 'who', 'what', 'where', 'when', 'why']
       unless newRole.match(/^not\s+/i)
-        users = robot.usersForFuzzyName(name)
+        users = robot.brain.usersForFuzzyName(name)
         if users.length is 1
           user = users[0]
           user.roles = user.roles or [ ]
@@ -54,7 +58,7 @@ module.exports = (robot) ->
             msg.send "I know"
           else
             user.roles.push(newRole)
-            if name.toLowerCase() is robot.name
+            if name.toLowerCase() is robot.name.toLowerCase()
               msg.send "Ok, I am #{newRole}."
             else
               msg.send "Ok, #{name} is #{newRole}."
@@ -68,7 +72,7 @@ module.exports = (robot) ->
     newRole = msg.match[2].trim()
 
     unless name in ['', 'who', 'what', 'where', 'when', 'why']
-      users = robot.usersForFuzzyName(name)
+      users = robot.brain.usersForFuzzyName(name)
       if users.length is 1
         user = users[0]
         user.roles = user.roles or [ ]
