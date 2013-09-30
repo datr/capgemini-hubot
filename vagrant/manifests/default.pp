@@ -94,6 +94,11 @@ package { "redis-server" : }
 
 package { "proxychains" : }
 
+# Squid
+# -----
+
+package { "squid3" : }
+
 # Hubot
 # -----
 
