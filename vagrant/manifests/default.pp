@@ -96,8 +96,32 @@ package { "proxychains" : }
 
 # Squid
 # -----
+#
+# Proxychains doesn't distinguish between traffic destinted for a remote
+# location and local services so we point it at a local proxy which is slightly
+# smarter and have it do the heavy lifting.
 
 package { "squid3" : }
+
+service { 'squid3':
+  ensure    => running,
+  enable    => true,
+  subscribe => File['/etc/squid3/squid.conf'],
+  require => Package['squid3'],
+}
+
+# Make some configuration changes.
+# 1. Add the proxy on the host machine as the default parent proxy.
+# 2. Set never_direct to all to force all requests through the parent proxy.
+# 3. Add a cache_peer_access exception for requests to services running inside
+#    the container.
+# 4. http_access will block CONNECT requests to non-ssl ports so just replace
+#    that config with something that allows everyone to use squid. No ones
+#    going to see this service anyway.
+file { "/etc/squid3/squid.conf" : 
+  source => "/vagrant/files/etc/squid3/squid.conf",
+  require => Package['squid3'],
+}
 
 # Hubot
 # -----
