@@ -35,15 +35,29 @@ if $::operatingsystemrelease >= 13.04 {
 }
 
 # Coffee Script
+# -------------
+#
+# Required by hubot.
 
 package { 'coffee-script':
   provider => 'npm',
 }
 
 # Hubot
+# -----
 
 package { 'hubot':
   provider => 'npm',
+}
+
+# Foreman
+# -------
+
+package { "rubygems" : }
+
+package { 'foreman':
+    provider => 'gem',
+    require => Package['rubygems'],
 }
 
 # Skype4Py
@@ -85,16 +99,8 @@ package { "proxychains" : }
 
 # Use foreman to manage environment variables:
 # https://devcenter.heroku.com/articles/config-vars
-# export HUBOT_LOG_LEVEL=DEBUG
-# export HUBOT_JIRA_URL=https://jira.capgeminidigital.com
-# export HUBOT_JIRA_USER=deanr
-# export HUBOT_JIRA_PASSWORD=
-# export HUBOT_JIRA_USE_V2=true
-# export HUBOT_TWITTER_CONSUMER_KEY=A59QNl9hSARZiAg5HZXzQ
-# export HUBOT_TWITTER_CONSUMER_SECRET=X9c6xmtDtQQ7Pyko7QErbIUNOIJ4WOKhOvDbPPxgNQ
-# export HUBOT_TWITTER_ACCESS_TOKEN_KEY=14971150-YlaJUawakGbLreR9dOeVhWKjFMqdKmGCUPIJh8TO8
-# export HUBOT_TWITTER_ACCESS_TOKEN_SECRET=rSLzf900xLddbpZUjMQcqNhI2q3IAOwghFZuCAYDE
 # exec { "export DISPLAY=:1 && /opt/hubot/bin/hubot -a skype --name deanbot" : }
+# exec { "foreman start" : }
 
 # Install a GUI
 # -------------

@@ -1,1 +1,1 @@
-web: bin/hubot -a campfire -n Hubot
+web: proxychains bin/hubot -a skype -n deanbot
