@@ -29,7 +29,8 @@
     "hubot-skype": "",
     "jsdom": "",
     "request": "",
-    "jquery": ""
+    "jquery": "",
+    "countdown": ""
   },
 
   "engines": {
