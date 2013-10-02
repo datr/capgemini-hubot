@@ -1,1 +1,1 @@
-web: proxychains bin/hubot -a skype -n deanbot
+web: proxychains bin/hubot -a skype -n db
