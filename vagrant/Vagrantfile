@@ -9,4 +9,6 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.synced_folder "../hubot", "/opt/hubot", nfs: true
+
+  config.ssh.forward_agent = true
 end

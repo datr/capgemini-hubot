@@ -74,6 +74,7 @@ package { "Skype4Py" :
 # Can't install dbus-python via pip.
 # http://stackoverflow.com/a/13367555/1381644
 
+package { "dbus-x11" : }
 package { "python-dbus" : }
 package { "python-gobject" : }
 
@@ -130,6 +131,18 @@ file { "/etc/squid3/squid.conf" :
 # https://devcenter.heroku.com/articles/config-vars
 # exec { "export DISPLAY=:1 && /opt/hubot/bin/hubot -a skype --name deanbot" : }
 # exec { "foreman start" : }
+
+# Jenkins Notification Plugin
+# ---------------------------
+
+# Set up the ssh hosts.
+file { "/home/vagrant/.ssh/config" : 
+  source => "/vagrant/files/home/vagrant/.ssh/config",
+}
+
+# Use autossh to maintain the jenkins tunnel.
+package { 'autossh' : }
+
 
 # Install a GUI
 # -------------
