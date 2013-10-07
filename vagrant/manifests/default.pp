@@ -1,4 +1,6 @@
 
+Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
+
 $config = loadyaml('/vagrant/config.yml')
 
 class { "apt":
@@ -23,7 +25,19 @@ class { "apt":
 
 class { 'nodejs' : 
   manage_repo => true,
-  proxy => '',
+  proxy => "http://${config[proxyhost]}:${config[proxyport]}",
+}
+
+# Add the npm registry certificate.
+# Can't access the registry atm. See: https://github.com/isaacs/npm/issues/1204#issuecomment-1702258
+
+exec { 'npm-registry' :
+  command => 'npm config set registry http://registry.npmjs.org/',
+  require => Class['nodejs'],
+}
+
+ssl::cert { 'npm' :
+  source => '/vagrant/files/certs/registry.npmjs.org.pem',
 }
 
 # There is a naming conflict between nodejs and Amateur Packet Radio Node
@@ -47,6 +61,7 @@ if $::operatingsystemrelease >= 13.04 {
 
 package { 'coffee-script':
   provider => 'npm',
+  require => Exec['npm-registry'],
 }
 
 # Hubot
@@ -54,6 +69,7 @@ package { 'coffee-script':
 
 package { 'hubot':
   provider => 'npm',
+  require => Exec['npm-registry'],
 }
 
 # Foreman
@@ -61,9 +77,13 @@ package { 'hubot':
 
 package { "rubygems" : }
 
-package { 'foreman':
-    provider => 'gem',
-    require => Package['rubygems'],
+#package { 'foreman':
+#    provider => 'gem',
+#    require => Package['rubygems'],
+#}
+
+exec { "gem install --http-proxy http://${config[proxyhost]}:${config[proxyport]} foreman" :
+  require => Package['rubygems'],
 }
 
 # Skype4Py
@@ -71,9 +91,14 @@ package { 'foreman':
 
 package { "python-pip" : }
 
-package { "Skype4Py" :
-  provider => pip,
+#package { "Skype4Py" :
+#  provider => pip,
+#  require => Package["python-pip"],
+#}
+
+exec { "pip --proxy http://${config[proxyhost]}:${config[proxyport]} install Skype4Py" :
   require => Package["python-pip"],
+  logoutput => true,
 }
 
 # x11 transport doesn't seem to be working.
@@ -100,6 +125,11 @@ package { "redis-server" : }
 # .. [#f2] https://github.com/github/hubot/issues/287
 
 package { "proxychains" : }
+
+file { '/etc/proxychains.conf' :
+  source => '/vagrant/files/etc/proxychains.conf',
+  require => Package['proxychains'],
+}
 
 # Squid
 # -----
