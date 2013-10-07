@@ -1,5 +1,11 @@
 
-class { 'apt': }
+$config = loadyaml('/vagrant/config.yml')
+
+class { "apt":
+  always_apt_update => true,
+  proxy_host => $config["proxyhost"],
+  proxy_port => $config["proxyport"],
+}
 
 
 # Node.js
@@ -119,8 +125,8 @@ service { 'squid3':
 # 4. http_access will block CONNECT requests to non-ssl ports so just replace
 #    that config with something that allows everyone to use squid. No ones
 #    going to see this service anyway.
-file { "/etc/squid3/squid.conf" : 
-  source => "/vagrant/files/etc/squid3/squid.conf",
+file { "/etc/wgetrc" :
+  content => template("squid.erb"),
   require => Package['squid3'],
 }
 

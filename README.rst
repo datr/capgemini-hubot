@@ -3,8 +3,28 @@ deanbot
 
 A hubot based chat bot for Capgemini Digital.
 
+Requirements
+------------
+
+* Git
+* Vagrant
+* Vagrant lxc
+* nfsd
+
 Setup
 -----
+
+1. Clone the git repo.
+
+2. Grab the submodules::
+
+    git submodule init && git submodule update
+
+3. Set the proxy to use (if any) in vagrant/config.yml.
+
+4. Start vagrant.
+
+    cd vagrant && vagrant up --provider lxc
 
 Jenkins Notifications
 ^^^^^^^^^^^^^^^^^^^^^

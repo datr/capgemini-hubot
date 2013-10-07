@@ -1953,7 +1953,7 @@ http_port 3128
 #	
 #Default:
 # none
-cache_peer 10.0.3.1       parent    3128  3130  default
+cache_peer <%= @config['proxyhost'] %>       parent    <%= @config['proxyport'] %>  3130  default
 
 
 #  TAG: cache_peer_domain
