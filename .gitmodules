@@ -13,3 +13,6 @@
 [submodule "vagrant/modules/nodejs"]
 	path = vagrant/modules/nodejs
 	url = https://github.com/puppetlabs/puppetlabs-nodejs.git
+[submodule "vagrant/modules/ssl"]
+	path = vagrant/modules/ssl
+	url = https://github.com/Unyonsys/puppet-module-ssl.git
