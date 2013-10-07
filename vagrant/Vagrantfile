@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
   
   config.vm.provision :puppet do |puppet|
   	puppet.module_path = "modules"
-  	puppet.options = "--verbose --debug"
+  	puppet.options = "--templatedir /vagrant/templates --verbose --debug"
   end
 
   config.vm.synced_folder "../hubot", "/opt/hubot", nfs: true

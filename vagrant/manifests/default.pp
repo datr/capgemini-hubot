@@ -125,7 +125,7 @@ service { 'squid3':
 # 4. http_access will block CONNECT requests to non-ssl ports so just replace
 #    that config with something that allows everyone to use squid. No ones
 #    going to see this service anyway.
-file { "/etc/wgetrc" :
+file { "/etc/squid3/squid.conf" :
   content => template("squid.erb"),
   require => Package['squid3'],
 }
