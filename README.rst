@@ -26,6 +26,24 @@ Setup
 
     cd vagrant && vagrant up --provider lxc
 
+5. Install the node dependencies::
+
+    cd /opt/hubot
+    npm install
+
+
+Installing Skype4Py
+^^^^^^^^^^^^^^^^^^^
+
+The pip --proxy option seems to be broken so for now you'll need to install
+this package manually if you're behind a proxy.
+
+Configuring Skype
+^^^^^^^^^^^^^^^^^
+
+If you're behind a proxy and want to configure Skype to use it before the first
+login, press Ctrl+O at the login screen to open the options dialog.
+
 Jenkins Notifications
 ^^^^^^^^^^^^^^^^^^^^^
 
