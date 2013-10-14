@@ -23,9 +23,18 @@ class { "apt":
 # .. [#f1] http://packages.ubuntu.com/raring/nodejs
 # .. [#f2] https://launchpad.net/~chris-lea/+archive/node.js
 
-class { 'nodejs' : 
-  manage_repo => true,
-  proxy => "http://${config[proxyhost]}:${config[proxyport]}",
+#class { 'nodejs' : 
+#  manage_repo => true,
+#  proxy => "http://${config[proxyhost]}:${config[proxyport]}",
+#}
+
+# We don't use the nodejs class to install node because of this issue:
+# https://github.com/puppetlabs/puppetlabs-nodejs/issues/48
+
+apt::ppa { 'ppa:chris-lea/node.js': }
+
+package { 'nodejs':
+  require => Apt::Ppa["ppa:chris-lea/node.js"]
 }
 
 # Add the npm registry certificate.
@@ -33,7 +42,7 @@ class { 'nodejs' :
 
 exec { 'npm-registry' :
   command => 'npm config set registry http://registry.npmjs.org/',
-  require => Class['nodejs'],
+  require => Package['nodejs'],
 }
 
 ssl::cert { 'npm' :
