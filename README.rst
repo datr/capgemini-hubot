@@ -31,6 +31,14 @@ Setup
     cd /opt/hubot
     npm install
 
+6. Copy hubot/example.env to hubot/.env and edit it to match your environment
+   details.
+
+7. Start foreman::
+
+     cd /opt/hubot
+     foreman start
+
 
 Installing Skype4Py
 ^^^^^^^^^^^^^^^^^^^
