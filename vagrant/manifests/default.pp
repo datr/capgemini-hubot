@@ -187,6 +187,7 @@ file { "/home/vagrant/.ssh/config" :
 
 # Use autossh to maintain the jenkins tunnel.
 package { 'autossh' : }
+# autossh -f rmg.jenkins -R 5000:ip6-localhost:5000 -N
 
 
 # Install a GUI

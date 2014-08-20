@@ -1,5 +1,5 @@
-deanbot
-=======
+db
+==
 
 A hubot based chat bot for Capgemini Digital.
 
@@ -25,6 +25,32 @@ Setup
 4. Start vagrant.
 
     cd vagrant && vagrant up --provider lxc
+
+5. Install the node dependencies::
+
+    cd /opt/hubot
+    npm install
+
+6. Copy hubot/example.env to hubot/.env and edit it to match your environment
+   details.
+
+7. Start foreman::
+
+     cd /opt/hubot
+     foreman start
+
+
+Installing Skype4Py
+^^^^^^^^^^^^^^^^^^^
+
+The pip --proxy option seems to be broken so for now you'll need to install
+this package manually if you're behind a proxy.
+
+Configuring Skype
+^^^^^^^^^^^^^^^^^
+
+If you're behind a proxy and want to configure Skype to use it before the first
+login, press Ctrl+O at the login screen to open the options dialog.
 
 Jenkins Notifications
 ^^^^^^^^^^^^^^^^^^^^^
